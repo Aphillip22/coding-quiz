@@ -13,7 +13,7 @@ var questions = [
     {
         question: "What is an array?",
         a: "a string of information",
-        b: "a datastructure that stores a fixed-size collection of elements",
+        b: "a fixed-size collection of elements",
         c: "a group of variables",
         answer: "B"
       },
@@ -33,7 +33,7 @@ var questions = [
       },
     {
         question: "What is a boolean data type?",
-        a: "a form of data with only two possible answers (true and false)",
+        a: "data with only true/false answers",
         b: "a conditional statement",
         c: "a string of data",
         answer: "A"
@@ -42,7 +42,7 @@ var questions = [
         question: "What does a for statement do in javascript?",
         a: "create a singular response to user input",
         b: "proclaim a conditional as true",
-        c: "create a loop that consists of three optional expressions",
+        c: "create a loop",
         answer: "C"
       },
     {
