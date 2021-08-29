@@ -70,7 +70,7 @@ function renderQuestion(){
     test = get("test");
     if(pos >= questions.length){
       test.innerHTML = "<h2>You got "+correct+" of "+questions.length+" questions correct</h2>";
-      get("test_status").innerHTML = "Test completed";
+      get("test_status").innerHTML = "All Finished!";
       // reset var to allow users to restart the test
       pos = 0;
       correct = 0;
@@ -107,5 +107,26 @@ function renderQuestion(){
     // return to renderQuestion
     renderQuestion();
   }
+var count = 0;
+var timerEl = document.getElementById("timer");
+var beginEl = document.getElementById("begin");
+
+function countdown() {
+    var timeLeft = 30;
+    var timeInterval = setInterval(function() {
+      if (timeLeft > 1) {
+        
+        timerEl.textContent = 'Time: ' + timeLeft;
+        // Decrement `timeLeft` by 1
+        timeLeft--;
+      } else {
+        // Once `timeLeft` gets to 0, set `timerEl` to an empty string
+        timerEl.textContent = '';
+        // Use `clearInterval()` to stop the timer
+        clearInterval(timeInterval);
+      }
+    }, 1000);
+  }
+beginEl.onclick = countdown;
   // Add event listener to call renderQuestion on click
-window.addEventListener("load", renderQuestion);
+beginEl.addEventListener("click", renderQuestion);

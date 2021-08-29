@@ -4,21 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coding Quiz</title>
-    <script src="./assets/js/script.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css"></style>
 </head>
 <body>
     <header>
       <div id="scores">
-          <a href="/">View High Scores</a>
+          <a href="/">View high scores</a>
       </div>
-      <div id="timer">
-          <p>Time:</p>
+      <div>
+          <p>Time:<span id="timer">0</span></p>
       </div>
     </header>
     <section id="quiz">
-        <h2 id="test_status"></h2>
-        <div id="test"></div>
+        <h2 id="test_status">Coding Quiz</h2>
+        <div id="test">
+            <p>Attempt to answer the following code-related questions before the timer runs out!
+            </p>
+            <button type="submit" id="begin">Begin Quiz</button>
+        </div>
     </section>
+<script src="./assets/js/script.js"></script>
 </body>
 </html>
