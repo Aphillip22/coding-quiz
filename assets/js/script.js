@@ -1,7 +1,7 @@
 var pos = 0;
 var correct = 0;
-var score= 0;
 var test, test_status, question, choice, choices, chA, chB, chC;
+var initialInput = document.querySelector('#initialsLabel');
 // add quiz questions
 var questions = [
     {
@@ -66,21 +66,24 @@ var questions = [
 function get(x){
     return document.getElementById(x);
 }
+function reload() {
+    window.location.reload();
+}
 // render a question for display on the page
 function renderQuestion(){
-    var initialSubmitEl=document.getElementById(enter-initials);
     test = get("test");
     if(pos >= questions.length){
       get("test_status").innerHTML = "All Finished!";
       document.getElementById("test").innerHTML = "<p>Your final score is "+(100/questions.length) * correct+".</p>";
-      test.innerHTML += "<p>Enter your initials: </p>"+"<label> <input type='text' name='name'>"+"<button type='submit' id='enter-initials'>Submit Initials</button>"
-      initialSubmitEl.addEventListener("click", highScore());
+      test.innerHTML += "<p>Enter your initials: </p>"+"<label> <input type='text' name='initialsLabel'>"+"<button type='submit' id='initials'>Submit Initials</button>";
+      var initialsEl = document.getElementById("initials");
+      initialsEl.onclick = leaderBoard;
       // reset var to allow users to restart the test
       pos = 0;
       correct = 0;
-      score = 0;
       return false;
     }
+  
     get("test_status").innerHTML = "Question "+(pos+1)+" of "+questions.length;
     
     question = questions[pos].question;
@@ -95,6 +98,7 @@ function renderQuestion(){
     test.innerHTML += "<label> <input type='radio' name='choices' value='C'> "+chC+"</label><br><br>";
     test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
   }
+
   // check user input answer
   function checkAnswer(){
     choices = document.getElementsByName("choices");
@@ -107,32 +111,42 @@ function renderQuestion(){
     if(choice == questions[pos].answer){
       // increase score for correct answers
       correct++;
-      score++;
+      console.log(correct);
     }
     pos++;
-    // return to renderQuestion
     renderQuestion();
+  }
+  function leaderBoard() {
+      get("test_status").innerHTML = "High Scores"
+      test.innerHTML = "<h3>Your Scores</h3>"+"<ul></ul>"
+      test.innerHTML += "<li>Score #1</li>"
+      test.innerHTML += "<li>Score #2</li>"
+      test.innerHTML += "<li>Score #3</li>"
+      test.innerHTML += "<li>Score #4</li>"
+      test.innerHTML += "<li>Score #5</li>"
   }
 var count = 0;
 var timerEl = document.getElementById("timer");
 var beginEl = document.getElementById("begin");
-
-function countdown() {
-    var timeLeft = 30;
-    var timeInterval = setInterval(function() {
-      if (timeLeft > 1) {
-        
-        timerEl.textContent = 'Time: ' + timeLeft;
-        // Decrement `timeLeft` by 1
-        timeLeft--;
-      } else {
-        // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-        timerEl.textContent = '';
-        // Use `clearInterval()` to stop the timer
-        clearInterval(timeInterval);
+     // countdown
+     function countdown() {
+        var timeLeft = 30;
+        var timeInterval = setInterval(function() {
+          if (timeLeft > 1) {
+            timerEl.textContent = timeLeft;
+            // Decrement `timeLeft` by 1
+            timeLeft--;
+          } else {
+            timerEl.textContent = '';
+            document.getElementById("test_status").innerHTML="Time's Up!"
+            document.getElementById("test").innerHTML="Oh no! You ran out of time!"+"<button type='submit' id='try-again'>Try Again</button>"
+            var tryAgainEl = document.getElementById("try-again");
+            tryAgainEl.onclick = reload;
+            // Use `clearInterval()` to stop the timer
+            clearInterval(timeInterval);
+          }
+        }, 1000);
       }
-    }, 1000);
-  }
-beginEl.onclick = countdown;
-  // Add event listener to call renderQuestion on click
+    beginEl.onclick = countdown;
+// Add event listener to call renderQuestion on click
 beginEl.addEventListener("click", renderQuestion);
