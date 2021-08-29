@@ -78,6 +78,7 @@ function renderQuestion(){
       test.innerHTML += "<p>Enter your initials: </p>"+"<label> <input type='text' name='initialsLabel'>"+"<button type='submit' id='initials'>Submit Initials</button>";
       var initialsEl = document.getElementById("initials");
       initialsEl.onclick = leaderBoard;
+      localStorage.setItem("name", initialsLabel.value);
       // reset var to allow users to restart the test
       pos = 0;
       correct = 0;
@@ -114,16 +115,17 @@ function renderQuestion(){
       console.log(correct);
     }
     pos++;
+    localStorage.setItem("correctScore", ((100/questions.length)*correct))
     renderQuestion();
   }
+  var leaderBoardEl = document.getElementById('scores');
   function leaderBoard() {
-      get("test_status").innerHTML = "High Scores"
+      get("test_status").innerHTML = "High Scores";
       test.innerHTML = "<h3>Your Scores</h3>"+"<ul></ul>"
-      test.innerHTML += "<li>Score #1</li>"
-      test.innerHTML += "<li>Score #2</li>"
-      test.innerHTML += "<li>Score #3</li>"
-      test.innerHTML += "<li>Score #4</li>"
-      test.innerHTML += "<li>Score #5</li>"
+      test.innerHTML += "<li>1. "+localStorage.getItem("name")+"</li>"+localStorage.getItem("correctScore");
+      test.innerHTML += "<button type='submit' id='play-again'>Play Again</button>"
+      var playAgainEl = document.getElementById("play-again");
+      playAgainEl.onclick = reload;
   }
 var count = 0;
 var timerEl = document.getElementById("timer");
@@ -150,3 +152,4 @@ var beginEl = document.getElementById("begin");
     beginEl.onclick = countdown;
 // Add event listener to call renderQuestion on click
 beginEl.addEventListener("click", renderQuestion);
+leaderBoardEl.onclick = leaderBoard;
