@@ -1,5 +1,6 @@
 var pos = 0;
 var correct = 0;
+var score= 0;
 var test, test_status, question, choice, choices, chA, chB, chC;
 // add quiz questions
 var questions = [
@@ -67,13 +68,17 @@ function get(x){
 }
 // render a question for display on the page
 function renderQuestion(){
+    var initialSubmitEl=document.getElementById(enter-initials);
     test = get("test");
     if(pos >= questions.length){
-      test.innerHTML = "<h2>You got "+correct+" of "+questions.length+" questions correct</h2>";
       get("test_status").innerHTML = "All Finished!";
+      document.getElementById("test").innerHTML = "<p>Your final score is "+(100/questions.length) * correct+".</p>";
+      test.innerHTML += "<p>Enter your initials: </p>"+"<label> <input type='text' name='name'>"+"<button type='submit' id='enter-initials'>Submit Initials</button>"
+      initialSubmitEl.addEventListener("click", highScore());
       // reset var to allow users to restart the test
       pos = 0;
       correct = 0;
+      score = 0;
       return false;
     }
     get("test_status").innerHTML = "Question "+(pos+1)+" of "+questions.length;
@@ -102,6 +107,7 @@ function renderQuestion(){
     if(choice == questions[pos].answer){
       // increase score for correct answers
       correct++;
+      score++;
     }
     pos++;
     // return to renderQuestion
