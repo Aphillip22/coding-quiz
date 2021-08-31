@@ -2,6 +2,7 @@ var pos = 0;
 var correct = 0;
 var test, test_status, question, choice, choices, chA, chB, chC;
 var initialInput = document.querySelector('#initialsLabel');
+var isPlaying = true
 // add quiz questions
 var questions = [
     {
@@ -73,12 +74,12 @@ function reload() {
 function renderQuestion(){
     test = get("test");
     if(pos >= questions.length){
+      isPlaying = false;
       get("test_status").innerHTML = "All Finished!";
       document.getElementById("test").innerHTML = "<p>Your final score is "+(100/questions.length) * correct+".</p>";
-      test.innerHTML += "<p>Enter your initials: </p>"+"<label> <input type='text' name='initialsLabel'>"+"<button type='submit' id='initials'>Submit Initials</button>";
+      test.innerHTML += "<p>Enter your initials: </p>"+"<label><input type='text' id='initialsLabel'></label>"+"<button type='submit' id='initials'>Submit Initials</button>";
       var initialsEl = document.getElementById("initials");
       initialsEl.onclick = leaderBoard;
-      localStorage.setItem("name", initialsLabel.value);
       // reset var to allow users to restart the test
       pos = 0;
       correct = 0;
@@ -120,6 +121,8 @@ function renderQuestion(){
   }
   var leaderBoardEl = document.getElementById('scores');
   function leaderBoard() {
+      var initialsLabelEl = document.getElementById("initialsLabel")
+      localStorage.setItem("name", initialsLabelEl.value);
       get("test_status").innerHTML = "High Scores";
       test.innerHTML = "<h3>Your Scores</h3>"+"<ul></ul>"
       test.innerHTML += "<li>1. "+localStorage.getItem("name")+"</li>"+localStorage.getItem("correctScore");
@@ -134,7 +137,9 @@ var beginEl = document.getElementById("begin");
      function countdown() {
         var timeLeft = 30;
         var timeInterval = setInterval(function() {
-          if (timeLeft > 1) {
+          if (!isPlaying) {
+            clearInterval(timeInterval);
+          } else if (timeLeft > 1) {
             timerEl.textContent = timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
